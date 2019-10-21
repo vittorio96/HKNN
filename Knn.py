@@ -29,42 +29,7 @@ class Knn:
         return temp_target, similarities
 
 
-    def fit_knn_model_original(self, k, x_train, x_val, y_train, y_val):
-
-        distance_matrix = np.ndarray
-
-        ## Run the KNN classifier
-
-        y_pred_knn = []
-
-
-        ## Iterate through each value in test data
-        for val in x_val:
-
-            euc_dis = []
-
-            ## Finding eucledian distance for all points in training data
-            for point in x_train:
-                euc_dis.append(self.distance_metric.compute_distance(val, point))
-
-            ##Combine similarites
-            average_distance = euc_dis
-
-            ## A temporary target array is created and both similarities and targets are sorted in a rank with bubble-sort
-            temp_target = y_train
-            temp_target, euc_dis = self.sort_similarities_bubble_sort(average_distance, temp_target)
-
-            ## Finding majority among the neighbours for the selected point
-            vote = [0 for _ in range(k)]
-            for i in range(k):
-                vote[temp_target[i]] += 1 #use the class as hashing solution
-
-            y_pred_knn.append(vote.index(max(vote)))#final prediction for the selected point
-
-        ## Print the accuracy score
-        print('Accuracy:',accuracy_score(y_val,y_pred_knn))
-
-    def fit_knn_model(self, k, x_train, x_val, y_train, y_val):
+    def fit_knn_model(self, k, x_train, x_val, y_train):
 
         ## Run the KNN classifier
 
@@ -95,5 +60,4 @@ class Knn:
 
             y_pred_knn.append(vote.index(max(vote)))#final prediction for the selected point
 
-        ## Print the accuracy score
-        print('Accuracy:',accuracy_score(y_val,y_pred_knn))
+        return y_pred_knn
