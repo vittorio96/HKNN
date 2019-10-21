@@ -1,10 +1,5 @@
-import numpy as np
 from distances.EuclideanDistance import EuclideanDistance
-from distances.Distance import Distance
-from utils.preprocessor import  prepare_dataset
-from utils.dataset_splitter import split_dataset
 
-from sklearn.metrics import  accuracy_score
 
 class Knn:
 

@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from sklearn import preprocessing
 from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import  PCA
+from sklearn.decomposition import PCA
 
 def reduce_dimensionality(original_feature_set):
     """
