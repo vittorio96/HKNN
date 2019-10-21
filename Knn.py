@@ -8,8 +8,8 @@ from sklearn.metrics import  accuracy_score
 
 class Knn:
 
-    def __init__(self, datasets, dataset, distance_metric):
-        self.datasets = datasets
+    def __init__(self, experiment_dict, dataset, distance_metric):
+        self.datasets = experiment_dict
         self.dataset = dataset
         self.distance_metric = distance_metric
 
@@ -57,9 +57,6 @@ class Knn:
             ## A temporary target array is created and both similarities and targets are sorted in a rank with bubble-sort
             temp_target = y_train
             temp_target, euc_dis = self.sort_similarities_bubble_sort(average_distance, temp_target)
-
-            print(euc_dis)
-            print("---")
 
             ## Finding majority among the neighbours for the selected point
             vote = [0 for _ in range(k)]
