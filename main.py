@@ -1,5 +1,5 @@
 from sklearn.metrics import accuracy_score
-from sklearn.model_selection import  KFold
+from sklearn.model_selection import  StratifiedKFold
 
 from Knn import Knn
 from distances.EuclideanDistance import EuclideanDistance
@@ -16,28 +16,26 @@ experiment_dict = {
 def main():
 
     ## Initial parameters
-    k = 3
+    k_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     dataset_name = 'ucb_1'
     distance_metric = EuclideanDistance()
 
     ## Main
     knn = Knn(experiment_dict, dataset_name, distance_metric)
     X, Y = prepare_dataset(experiment_dict, dataset_name)
-    x_train, x_val, y_train, y_val = split_dataset(X, Y)
-    prediction = knn.fit_knn_model(k, x_train, x_val, y_train)#y_train is used to know the class to vote
+    X_train, X_test, Y_train, Y_test = split_dataset(X, Y)
 
-    ## Print the accuracy score
-    print('Accuracy:', accuracy_score(y_val, prediction))
+    ## K-fold cross validation
 
-    k_fold_cross_validator = KFold(n_splits=10)
+    k_fold_cross_validator = StratifiedKFold(n_splits=10)
 
-    for train_index, test_index in k_fold_cross_validator.split(X):
-        print("TRAIN:", train_index, "TEST:", test_index)
-        x_train, x_test = X[train_index], X[test_index]
-        y_train, y_test = Y[train_index], Y[test_index]
-        prediction = knn.fit_knn_model(k, x_train, x_val, y_train)  # y_train is used to know the class to vote
-        ## Print the accuracy score
-        print('Accuracy:', accuracy_score(y_val, prediction))
+    for train_index, val_index in k_fold_cross_validator.split(X_train, Y_train):
+        for k in k_list:
+            x_train, x_val = X_train[train_index], X_train[val_index]
+            y_train, y_val = Y_train[train_index], Y_train[val_index]
+            prediction = knn.fit_knn_model(k, x_train, x_val, y_train)  # y_train is used to know the class to vote
+            ## Print the accuracy score
+            print('Accuracy:', accuracy_score(y_val, prediction))
 
 
 

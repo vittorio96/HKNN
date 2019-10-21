@@ -32,7 +32,6 @@ class Knn:
     def fit_knn_model(self, k, x_train, x_val, y_train):
 
         ## Run the KNN classifier
-
         y_pred_knn = []
 
         distance = EuclideanDistance()
@@ -54,7 +53,8 @@ class Knn:
             temp_target, euc_dis = self.sort_similarities_bubble_sort(average_distance, temp_target)
 
             ## Finding majority among the neighbours for the selected point
-            vote = [0 for _ in range(k)]
+            vote = [0 for _ in range(max(temp_target) + 1)]
+
             for i in range(k):
                 vote[temp_target[i]] += 1 #use the class as hashing solution
 
