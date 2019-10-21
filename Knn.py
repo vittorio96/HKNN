@@ -29,11 +29,7 @@ class Knn:
         return temp_target, similarities
 
 
-    def fit_knn_model_original(self, k):
-
-        X, Y = prepare_dataset(self.datasets, self.dataset)
-
-        x_train, x_val, y_train, y_val = split_dataset(X, Y)
+    def fit_knn_model_original(self, k, x_train, x_val, y_train, y_val):
 
         distance_matrix = np.ndarray
 
@@ -68,11 +64,7 @@ class Knn:
         ## Print the accuracy score
         print('Accuracy:',accuracy_score(y_val,y_pred_knn))
 
-    def fit_knn_model(self, dataset, k):
-
-        X, Y = prepare_dataset(self.datasets, self.dataset)
-
-        x_train, x_val, y_train, y_val = split_dataset(X, Y)
+    def fit_knn_model(self, k, x_train, x_val, y_train, y_val):
 
         ## Run the KNN classifier
 

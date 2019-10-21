@@ -1,5 +1,8 @@
 from Knn import Knn
 from distances.EuclideanDistance import EuclideanDistance
+from utils.preprocessor import prepare_dataset
+
+from utils.dataset_splitter import split_dataset
 
 experiment_dict = {
     'ucb_1': {'name': 'Iris.csv', 'features': ['SepalLengthCm', 'SepalWidthCm', 'PetalLengthCm', 'PetalWidthCm'], 'target': 'Species'},
@@ -17,7 +20,9 @@ def main():
 
     ## Main
     knn = Knn(experiment_dict, dataset_name, distance_metric)
-    knn.fit_knn_model_original(k)
+    X, Y = prepare_dataset(experiment_dict, dataset_name)
+    x_train, x_val, y_train, y_val = split_dataset(X, Y)
+    knn.fit_knn_model(k, x_train, x_val, y_train, y_val)
 
 
 if __name__ == "__main__":
