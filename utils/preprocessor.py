@@ -20,13 +20,14 @@ def reduce_dimensionality(original_feature_set):
 def prepare_dataset(datasets, csv_name):
 
     ## Load Iris dataset
-    df = pd.read_csv('/Users/vittoriodenti/Dev/Software/HKNN/datasets/' + datasets[csv_name]['name'])
+    df = pd.read_csv('./datasets/' + datasets[csv_name]['name'], sep=',' )
+    print(df)
 
     ## Separating out the target
     target = df[datasets[csv_name]['target']].values
 
     ## Separating out the features
-    to_drop_list = [datasets[csv_name]['target']]+ datasets[csv_name]['to_drop']
+    to_drop_list = [datasets[csv_name]['target']] + datasets[csv_name]['to_drop']
     features_set = df.drop(to_drop_list, axis = 1).values
 
     ## Apply PCA

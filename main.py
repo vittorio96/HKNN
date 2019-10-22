@@ -15,16 +15,16 @@ from utils.dataset_splitter import split_dataset
 experiment_dict = {
     'ucb_iris': {'name': 'Iris.csv', 'to_drop' : [], 'target': 'Species'},
     'ucb_diabetes': {'name': 'diabetes.csv', 'to_drop' : [], 'target': 'class'},
-    'ucb_parkinson': {'name': 'parkinson.xls',  'to_drop' : [], 'target': 'status'},
+    'ucb_parkinson': {'name': 'parkinson.csv',  'to_drop' : [], 'target': 'status'},
     'ucb_epilepsy': {'name': 'epilepsy.csv', 'to_drop' : [], 'target': 'y'},
-    'ucb_5': {'name': 'xxx', 'to_drop' : [], 'target': 'Species'}
+    'ucb_prostate': {'name': 'prostate_cancer.csv', 'to_drop' : [], 'target': 'diagnosis_result'}
 }
 
 def main():
 
     ## Initial parameters
 
-    dataset_name = 'ucb_diabetes'
+    dataset_name = 'ucb_prostate'
     distance_metric = EuclideanDistance()
 
     ## Main
@@ -44,14 +44,14 @@ def main():
     k_fold_cross_validator = StratifiedKFold(n_splits=n_folds)
     epoch = 0
 
-    for k in range(1, 3):
+    for k in range(1, 2):
 
         accuracy_sum = 0
         precision_sum = 0
         f1_score_sum = 0
 
         for train_index, val_index in k_fold_cross_validator.split(X_train, Y_train):
-
+            print("Iteration begins")
             x_train, x_val = X_train[train_index], X_train[val_index]
             y_train, y_val = Y_train[train_index], Y_train[val_index]
             prediction = knn.fit_knn_model(k, x_train, x_val, y_train)  # y_train is used to know the class to vote
