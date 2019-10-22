@@ -17,3 +17,6 @@ class EuclideanDistance(Distance):
             cumulative_distance += (point1[i] - point2[i]) ** 2
 
         return float(cumulative_distance ** 0.5)
+
+    def get_distance_name(self):
+        return "Euclidean"

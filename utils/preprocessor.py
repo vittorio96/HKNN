@@ -9,6 +9,7 @@ def reduce_dimensionality(original_feature_set):
         :type original_feature_set: numpy.ndarray
         :rtype: x: numpy.ndarray
     """
+
     original_feature_set = StandardScaler(copy=True, with_mean=True, with_std=False).fit_transform(original_feature_set)
     pca = PCA(n_components=0.9, svd_solver='full')
     principal_components = pca.fit_transform(original_feature_set)
@@ -20,15 +21,16 @@ def prepare_dataset(datasets, csv_name):
 
     ## Load Iris dataset
     df = pd.read_csv('/Users/vittoriodenti/Dev/Software/HKNN/datasets/' + datasets[csv_name]['name'])
-    features_set = datasets[csv_name]['features']
 
-    ## Separating out the features
-    x = df.loc[:, features_set].values
     ## Separating out the target
     target = df[datasets[csv_name]['target']].values
 
+    ## Separating out the features
+    to_drop_list = [datasets[csv_name]['target']]+ datasets[csv_name]['to_drop']
+    features_set = df.drop(to_drop_list, axis = 1).values
+
     ## Apply PCA
-    x = reduce_dimensionality(x)
+    x = reduce_dimensionality(features_set)
 
     ## Encode the name of the classes into numbers
     le = preprocessing.LabelEncoder()

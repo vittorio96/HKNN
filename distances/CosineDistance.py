@@ -10,3 +10,6 @@ class CosineDistance(Distance):
         """
 
         return 0
+
+    def get_distance_name(self):
+        return "Cosine"

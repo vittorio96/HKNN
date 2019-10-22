@@ -9,3 +9,7 @@ class Distance(ABC):
     @abstractmethod
     def compute_distance(self, point1, point2):
         pass
+
+    @abstractmethod
+    def get_distance_name(self):
+        pass

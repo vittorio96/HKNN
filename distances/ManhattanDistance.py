@@ -9,3 +9,6 @@ class ManhattanDistance(Distance):
             :rtype: cumulative_distance: float, -1 if arrays are not matching
         """
         return 0
+
+    def get_distance_name(self):
+        return "Manhattan"

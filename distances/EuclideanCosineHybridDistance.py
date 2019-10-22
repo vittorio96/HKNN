@@ -18,3 +18,6 @@ class EuclideanCosineDistance(Distance):
         cosine = CosineDistance()
 
         return self.alpha * euclidean.compute_distance(point1, point2) + (1-self.alpha) * cosine.compute_distance(point1, point2)
+
+    def get_distance_name(self):
+        return "EuclideanCosineHybrid"
