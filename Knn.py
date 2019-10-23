@@ -1,5 +1,5 @@
 from distances.EuclideanDistance import EuclideanDistance
-
+import numpy as np
 
 class Knn:
 
@@ -55,4 +55,4 @@ class Knn:
 
             y_pred_knn.append(vote.index(max(vote)))#final prediction for the selected point
 
-        return y_pred_knn
+        return np.array(y_pred_knn)

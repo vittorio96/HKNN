@@ -21,7 +21,6 @@ def prepare_dataset(datasets, csv_name):
 
     ## Load Iris dataset
     df = pd.read_csv('./datasets/' + datasets[csv_name]['name'], sep=',' )
-    print(df)
 
     ## Separating out the target
     target = df[datasets[csv_name]['target']].values
