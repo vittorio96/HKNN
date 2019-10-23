@@ -15,11 +15,13 @@ from utils.preprocessor import prepare_dataset
 from utils.dataset_splitter import split_dataset
 
 experiment_dict = {
-    'iris': {'name': 'Iris.csv', 'to_drop' : [], 'target': 'Species'},
-    'diabetes': {'name': 'diabetes.csv', 'to_drop' : [], 'target': 'class'},
-    'parkinson': {'name': 'parkinson.csv',  'to_drop' : [], 'target': 'status'},
-    'epilepsy': {'name': 'epilepsy.csv', 'to_drop' : [], 'target': 'y'},
-    'prostate': {'name': 'prostate_cancer.csv', 'to_drop' : [], 'target': 'diagnosis_result'}
+    'iris': {'name': 'Iris.csv', 'to_drop' : [], 'target': 'Species', 'sep' : ','},
+    'diabetes': {'name': 'diabetes.csv', 'to_drop' : [], 'target': 'class', 'sep' : ','},
+    'heart': {'name': 'heart.csv', 'to_drop' : [], 'target': 'target', 'sep' : ','},
+    'prostate': {'name': 'prostate_cancer.csv', 'to_drop' : [], 'target': 'diagnosis_result', 'sep': ','},
+    'breast': {'name': 'breast_cancer.csv', 'to_drop' : ['id'], 'target': 'diagnosis', 'sep': ';'},
+    'immunotherapy': {'name': 'immunotherapy.csv', 'to_drop' : [], 'target': 'Result_of_Treatment', 'sep': ';'},
+    'cryotherapy': {'name': 'cryotherapy.csv', 'to_drop' : [], 'target': 'Result_of_Treatment', 'sep': ';'}
 }
 
 
@@ -35,7 +37,7 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
     k_fold_cross_validator = StratifiedKFold(n_splits=n_folds)
     epoch = 0
 
-    for k in range(3, 5):
+    for k in range(1, 5):
 
         accuracy_sum = 0
         precision_sum = 0
@@ -45,10 +47,6 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
             x_train_fold, x_val_fold = X_train[train_index], X_train[val_index]
             y_train_fold, y_val_fold = y_train[train_index], y_train[val_index]
             prediction = knn.fit_knn_model(k, x_train_fold, x_val_fold, y_train_fold)  # y_train is used to know the class to vote
-
-            print(prediction)
-            print(y_val_fold)
-            print("- - -")
 
             ## Compute metrics
             accuracy_sum += accuracy_score(y_val_fold, prediction)
@@ -86,11 +84,12 @@ def final_evaluation_on_test(k, X_train, X_test, y_train, y_test, knn, dataset_n
 
 def main():
 
+    ## Computation parameters
+
     tuning = True
+    n_folds = 2
 
-    ## Initial parameters
-
-    dataset_name = 'iris'
+    dataset_name = 'immunotherapy'
     distance_metric = EuclideanDistance()
 
     ## Main
@@ -100,10 +99,9 @@ def main():
     X_train, X_test, y_train, y_test = split_dataset(X, y)
 
     if tuning:
-        n_folds = 2
         k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds)
     else:
-        final_evaluation_on_test(5, X_train, y_test, y_train, y_test, knn, dataset_name)
+        final_evaluation_on_test(9, X_train, y_test, y_train, y_test, knn, dataset_name)
 
 
 if __name__ == "__main__":

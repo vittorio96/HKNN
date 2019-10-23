@@ -10,7 +10,7 @@ def reduce_dimensionality(original_feature_set):
         :rtype: x: numpy.ndarray
     """
 
-    original_feature_set = StandardScaler(copy=True, with_mean=True, with_std=True).fit_transform(original_feature_set)
+    original_feature_set = StandardScaler(copy = True, with_mean = True, with_std = True).fit_transform(original_feature_set)
     pca = PCA(n_components=0.9, svd_solver='full')
     principal_components = pca.fit_transform(original_feature_set)
     x = pd.DataFrame(data=principal_components)
@@ -20,14 +20,14 @@ def reduce_dimensionality(original_feature_set):
 def prepare_dataset(datasets, csv_name):
 
     ## Load Iris dataset
-    df = pd.read_csv('./datasets/' + datasets[csv_name]['name'], sep=',' )
+    df = pd.read_csv('./datasets/' + datasets[csv_name]['name'], sep= datasets[csv_name]['sep'] )
 
     ## Separating out the target
     target = df[datasets[csv_name]['target']].values
 
     ## Separating out the features
     to_drop_list = [datasets[csv_name]['target']] + datasets[csv_name]['to_drop']
-    features_set = df.drop(to_drop_list, axis = 1).values
+    features_set = df.drop(to_drop_list, axis = 1).astype(float).values
 
     ## Apply PCA
     x = reduce_dimensionality(features_set)
