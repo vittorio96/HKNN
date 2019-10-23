@@ -53,6 +53,8 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
             precision_sum += precision_score(y_val_fold, prediction, average='macro')
             f1_score_sum += f1_score(y_val_fold, prediction, average='macro')
 
+            print(accuracy_score(y_val_fold, prediction))
+
         ## Epoch completed, hyperparameters evaluated, compute average values over the folds
         k_list.append(k)
         accuracy_list.append(round(accuracy_sum / n_folds, 5))
@@ -70,6 +72,10 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
 
 def final_evaluation_on_test(k, X_train, X_test, y_train, y_test, knn, dataset_name):
 
+    print(len(y_test))
+    print(len(y_train))
+    print("---")
+
     prediction = knn.fit_knn_model(k, X_train, X_test, y_train)  # y_train is used to know the class to vote
 
     ## Compute metrics
@@ -86,10 +92,10 @@ def main():
 
     ## Computation parameters
 
-    tuning = True
-    n_folds = 2
+    tuning = False
+    n_folds = 10
 
-    dataset_name = 'immunotherapy'
+    dataset_name = 'iris'
     distance_metric = EuclideanDistance()
 
     ## Main
@@ -101,7 +107,7 @@ def main():
     if tuning:
         k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds)
     else:
-        final_evaluation_on_test(9, X_train, y_test, y_train, y_test, knn, dataset_name)
+        final_evaluation_on_test(9, X_train, X_test, y_train, y_test, knn, dataset_name)
 
 
 if __name__ == "__main__":
