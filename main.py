@@ -67,7 +67,7 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
     ##Save final results on CSV file
 
     df = pd.DataFrame({'K': k_list, 'Accuracy': accuracy_list, 'Precision': precision_list, 'F1 score': f1_score_list})
-    df.to_csv("tuning/tuning_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv")
+    df.to_csv("tuning/tuning_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv", index=False)
 
 
 def final_evaluation_on_test(k, X_train, X_test, y_train, y_test, knn, dataset_name):
@@ -85,7 +85,7 @@ def final_evaluation_on_test(k, X_train, X_test, y_train, y_test, knn, dataset_n
 
     ##Save final results on CSV file
     df = pd.DataFrame({'K': k, 'Accuracy': accuracy_metric, 'Precision': precision_metric, 'F1 score': f1_score_metric}, index = [1])
-    df.to_csv("tuning/test_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv")
+    df.to_csv("tuning/test_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv", index = False)
 
 
 def main():
