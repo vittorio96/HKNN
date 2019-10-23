@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 
 def split_dataset(X, Y):
     
-    x_train, x_test, y_train, y_test = train_test_split(X, Y, train_size=0.9, test_size=0.10, random_state=57)
+    x_train, x_test, y_train, y_test = train_test_split(X, Y, train_size=0.85, test_size=0.10, random_state=57, shuffle = True)
 
     ## Make them as numpy arrays
     x_train = np.array(x_train)

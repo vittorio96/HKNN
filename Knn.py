@@ -34,18 +34,15 @@ class Knn:
         ## Iterate through each value in test data
         for val in x_val:
 
-            euc_dis = []
+            distances = []
 
             ## Finding eucledian distance for all points in training data
             for point in x_train:
-                euc_dis.append(distance.compute_distance(val, point))
-
-            ##Combine similarites
-            average_distance = euc_dis
+                distances.append(distance.compute_distance(val, point))
 
             ## A temporary target array is created and both similarities and targets are sorted in a rank with bubble-sort
             temp_target = y_train
-            temp_target, euc_dis = self.sort_similarities_bubble_sort(average_distance, temp_target)
+            temp_target, distances = self.sort_similarities_bubble_sort(distances, temp_target)
 
             ## Finding majority among the neighbours for the selected point
             vote = [0 for _ in range(max(temp_target) + 1)]

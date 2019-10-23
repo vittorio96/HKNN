@@ -4,13 +4,13 @@ from sklearn.metrics import roc_auc_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import f1_score
 from sklearn.model_selection import  StratifiedKFold
+from sklearn.neighbors import KNeighborsClassifier
 import pandas as pd
 
 from Knn import Knn
-from distances.EuclideanDistance import EuclideanDistance
 from distances.EuclideanDistance import *
-from distances.ManhattanDistance import ManhattanDistance
-from distances.CosineDistance import CosineDistance
+from distances.ManhattanDistance import *
+from distances.CosineDistance import *
 from utils.preprocessor import prepare_dataset
 from utils.dataset_splitter import split_dataset
 
@@ -23,7 +23,7 @@ experiment_dict = {
 }
 
 
-def k_fold_cross_validation(X_train, Y_train, knn, dataset_name, n_folds):
+def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
 
     ## K-fold cross validation
 
@@ -35,21 +35,25 @@ def k_fold_cross_validation(X_train, Y_train, knn, dataset_name, n_folds):
     k_fold_cross_validator = StratifiedKFold(n_splits=n_folds)
     epoch = 0
 
-    for k in range(1, 7):
+    for k in range(3, 5):
 
         accuracy_sum = 0
         precision_sum = 0
         f1_score_sum = 0
 
-        for train_index, val_index in k_fold_cross_validator.split(X_train, Y_train):
-            x_train, x_val = X_train[train_index], X_train[val_index]
-            y_train, y_val = Y_train[train_index], Y_train[val_index]
-            prediction = knn.fit_knn_model(k, x_train, x_val, y_train)  # y_train is used to know the class to vote
+        for train_index, val_index in k_fold_cross_validator.split(X_train, y_train):
+            x_train_fold, x_val_fold = X_train[train_index], X_train[val_index]
+            y_train_fold, y_val_fold = y_train[train_index], y_train[val_index]
+            prediction = knn.fit_knn_model(k, x_train_fold, x_val_fold, y_train_fold)  # y_train is used to know the class to vote
+
+            print(prediction)
+            print(y_val_fold)
+            print("- - -")
 
             ## Compute metrics
-            accuracy_sum += accuracy_score(y_val, prediction)
-            precision_sum += precision_score(y_val, prediction, average='macro')
-            f1_score_sum += f1_score(y_val, prediction, average='macro')
+            accuracy_sum += accuracy_score(y_val_fold, prediction)
+            precision_sum += precision_score(y_val_fold, prediction, average='macro')
+            f1_score_sum += f1_score(y_val_fold, prediction, average='macro')
 
         ## Epoch completed, hyperparameters evaluated, compute average values over the folds
         k_list.append(k)
@@ -66,14 +70,14 @@ def k_fold_cross_validation(X_train, Y_train, knn, dataset_name, n_folds):
     df.to_csv("tuning/tuning_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv")
 
 
-def final_evaluation_on_test(k, X_train, X_test, Y_train, Y_test, knn, dataset_name):
+def final_evaluation_on_test(k, X_train, X_test, y_train, y_test, knn, dataset_name):
 
-    prediction = knn.fit_knn_model(k, X_train, X_test, Y_train)  # y_train is used to know the class to vote
+    prediction = knn.fit_knn_model(k, X_train, X_test, y_train)  # y_train is used to know the class to vote
 
     ## Compute metrics
-    accuracy_metric = accuracy_score(Y_test, prediction)
-    precision_metric = precision_score(Y_test, prediction, average='macro')
-    f1_score_metric = f1_score(Y_test, prediction, average='macro')
+    accuracy_metric = accuracy_score(y_test, prediction)
+    precision_metric = precision_score(y_test, prediction, average='macro')
+    f1_score_metric = f1_score(y_test, prediction, average='macro')
 
     ##Save final results on CSV file
     df = pd.DataFrame({'K': k, 'Accuracy': accuracy_metric, 'Precision': precision_metric, 'F1 score': f1_score_metric}, index = [1])
@@ -92,14 +96,14 @@ def main():
     ## Main
 
     knn = Knn(experiment_dict, dataset_name, distance_metric)
-    X, Y = prepare_dataset(experiment_dict, dataset_name)
-    X_train, X_test, Y_train, Y_test = split_dataset(X, Y)
+    X, y = prepare_dataset(experiment_dict, dataset_name)
+    X_train, X_test, y_train, y_test = split_dataset(X, y)
 
     if tuning:
-        n_folds = 9
-        k_fold_cross_validation(X_train, Y_train, knn, dataset_name, n_folds)
+        n_folds = 2
+        k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds)
     else:
-        final_evaluation_on_test(5, X_train, Y_test, Y_train, Y_test, knn, dataset_name)
+        final_evaluation_on_test(5, X_train, y_test, y_train, y_test, knn, dataset_name)
 
 
 if __name__ == "__main__":
