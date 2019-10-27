@@ -20,8 +20,8 @@ experiment_dict = {
     'heart': {'name': 'heart.csv', 'to_drop' : [], 'target': 'target', 'sep' : ','},
     'prostate': {'name': 'prostate_cancer.csv', 'to_drop' : [], 'target': 'diagnosis_result', 'sep': ','},
     'breast': {'name': 'breast_cancer.csv', 'to_drop' : ['id'], 'target': 'diagnosis', 'sep': ';'},
-    'immunotherapy': {'name': 'immunotherapy.csv', 'to_drop' : [], 'target': 'Result_of_Treatment', 'sep': ';'},
-    'cryotherapy': {'name': 'cryotherapy.csv', 'to_drop' : [], 'target': 'Result_of_Treatment', 'sep': ';'}
+    'orthopedic_single': {'name': 'orthopedic_single.csv', 'to_drop' : [], 'target': 'class', 'sep': ','},
+    'orthopedic_multi': {'name': 'orthopedic_multi.csv', 'to_drop' : [], 'target': 'class', 'sep': ','},
 }
 
 
@@ -37,7 +37,7 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
     k_fold_cross_validator = StratifiedKFold(n_splits=n_folds)
     epoch = 0
 
-    for k in range(1, 5):
+    for k in range(1, 15):
 
         accuracy_sum = 0
         precision_sum = 0
@@ -53,8 +53,6 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
             precision_sum += precision_score(y_val_fold, prediction, average='macro')
             f1_score_sum += f1_score(y_val_fold, prediction, average='macro')
 
-            print(accuracy_score(y_val_fold, prediction))
-
         ## Epoch completed, hyperparameters evaluated, compute average values over the folds
         k_list.append(k)
         accuracy_list.append(round(accuracy_sum / n_folds, 5))
@@ -67,14 +65,10 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
     ##Save final results on CSV file
 
     df = pd.DataFrame({'K': k_list, 'Accuracy': accuracy_list, 'Precision': precision_list, 'F1 score': f1_score_list})
-    df.to_csv("tuning/tuning_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv", index=False)
+    df.to_csv("tuning/tuning_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv", index=False, float_format = '%.5f')
 
 
 def final_evaluation_on_test(k, X_train, X_test, y_train, y_test, knn, dataset_name):
-
-    print(len(y_test))
-    print(len(y_train))
-    print("---")
 
     prediction = knn.fit_knn_model(k, X_train, X_test, y_train)  # y_train is used to know the class to vote
 
@@ -92,10 +86,10 @@ def main():
 
     ## Computation parameters
 
-    tuning = False
+    tuning = True
     n_folds = 10
 
-    dataset_name = 'iris'
+    dataset_name = 'orthopedic_multi'
     distance_metric = EuclideanDistance()
 
     ## Main
