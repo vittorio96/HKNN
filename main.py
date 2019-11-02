@@ -1,5 +1,6 @@
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
 from sklearn.model_selection import  StratifiedKFold
 import pandas as pd
@@ -32,6 +33,7 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
     k_list = []
     accuracy_list = []
     precision_list = []
+    recall_list = []
     f1_score_list = []
 
     k_fold_cross_validator = StratifiedKFold(n_splits=n_folds)
@@ -42,6 +44,7 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
         accuracy_sum = 0
         precision_sum = 0
         f1_score_sum = 0
+        recall_sum = 0
 
         for train_index, val_index in k_fold_cross_validator.split(X_train, y_train):
             x_train_fold, x_val_fold = X_train[train_index], X_train[val_index]
@@ -51,12 +54,14 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
             ## Compute metrics
             accuracy_sum += accuracy_score(y_val_fold, prediction)
             precision_sum += precision_score(y_val_fold, prediction, average='macro')
+            recall_sum += recall_score(y_val_fold, prediction, average = 'macro')
             f1_score_sum += f1_score(y_val_fold, prediction, average='macro')
 
         ## Epoch completed, hyperparameters evaluated, compute average values over the folds
         k_list.append(k)
         accuracy_list.append(round(accuracy_sum / n_folds, 5))
         precision_list.append(round(precision_sum / n_folds, 5))
+        recall_list.append(round((recall_sum / n_folds), 5))
         f1_score_list.append(round(f1_score_sum / n_folds, 5))
 
         print("Epoch " + str(epoch) + " finished")
@@ -64,7 +69,7 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
 
     ##Save final results on CSV file
 
-    df = pd.DataFrame({'K': k_list, 'Accuracy': accuracy_list, 'Precision': precision_list, 'F1 score': f1_score_list})
+    df = pd.DataFrame({'K': k_list, 'Accuracy': accuracy_list, 'Precision': precision_list, 'Recall': recall_list,'F1 score': f1_score_list})
     df.to_csv("tuning/tuning_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv", index=False, float_format = '%.5f')
 
 
@@ -73,12 +78,13 @@ def final_evaluation_on_test(k, X_train, X_test, y_train, y_test, knn, dataset_n
     prediction = knn.fit_knn_model(k, X_train, X_test, y_train)  # y_train is used to know the class to vote
 
     ## Compute metrics
-    accuracy_metric = accuracy_score(y_test, prediction)
-    precision_metric = precision_score(y_test, prediction, average='macro')
-    f1_score_metric = f1_score(y_test, prediction, average='macro')
+    accuracy_metric = round(accuracy_score(y_test, prediction), 5)
+    precision_metric = round(precision_score(y_test, prediction, average='macro'), 5)
+    recall_metric = round(recall_score(y_test, prediction, average='macro'))
+    f1_score_metric = round(f1_score(y_test, prediction, average='macro'))
 
     ##Save final results on CSV file
-    df = pd.DataFrame({'K': k, 'Accuracy': accuracy_metric, 'Precision': precision_metric, 'F1 score': f1_score_metric}, index = [1])
+    df = pd.DataFrame({'K': k, 'Accuracy': accuracy_metric, 'Precision': precision_metric, 'Recall': recall_metric, 'F1 score': f1_score_metric}, index = [1])
     df.to_csv("tuning/test_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv", index = False)
 
 
@@ -86,12 +92,12 @@ def main():
 
     ## Computation parameters
 
-    tuning = True
+    tuning = False
     n_folds = 3
 
     dataset_name = 'orthopedic_multi'
-    distance_metric = CosineManhattanHybridDistance()
-    distance_metric.set_cosine_weight(0.7)
+    distance_metric = EuclideanDistance()
+    #distance_metric.set_cosine_weight(0.7)
 
     ## Main
 

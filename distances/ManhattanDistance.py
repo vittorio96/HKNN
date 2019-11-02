@@ -1,7 +1,5 @@
 from distances.Distance import Distance
 from scipy.spatial import minkowski_distance
-from scipy.stats import chisquare
-from scipy.spatial.distance import cdist
 
 
 class ManhattanDistance(Distance):

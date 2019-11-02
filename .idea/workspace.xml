@@ -2,15 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="95961313-8228-47bc-97e4-959885a776a3" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/distances/CosineManhattanHybridDistance.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/distances/EuclideanManhattanHybridDistance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Knn.py" beforeDir="false" afterPath="$PROJECT_DIR$/Knn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distances/EuclideanCosineHybridDistance.py" beforeDir="false" afterPath="$PROJECT_DIR$/distances/EuclideanCosineHybridDistance.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/distances/EuclideanManhattanHybridDistance.py" beforeDir="false" afterPath="$PROJECT_DIR$/distances/EuclideanManhattanHybridDistance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distances/ManhattanDistance.py" beforeDir="false" afterPath="$PROJECT_DIR$/distances/ManhattanDistance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tuning/tuning_iris_Euclidean.csv" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/preprocessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/preprocessor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tuning/tuning_orthopedic_multi_Cosine.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tuning/tuning_orthopedic_multi_CosineManhattanHybrid.csv" beforeDir="false" afterPath="$PROJECT_DIR$/tuning/tuning_orthopedic_multi_CosineManhattanHybrid.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tuning/tuning_orthopedic_multi_Euclidean.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tuning/tuning_orthopedic_multi_EuclideanCosineHybrid.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tuning/tuning_orthopedic_multi_EuclideanManhattanHybrid.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tuning/tuning_orthopedic_multi_Manhattan.csv" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -125,7 +126,7 @@
       <option name="presentableId" value="Default" />
       <updated>1569657780270</updated>
       <workItem from="1572603679509" duration="14000" />
-      <workItem from="1572708273434" duration="5587000" />
+      <workItem from="1572708273434" duration="6536000" />
     </task>
     <servers />
   </component>
@@ -144,6 +145,6 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HKNN$main.coverage" NAME="main Coverage Results" MODIFIED="1572714598943" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HKNN$main.coverage" NAME="main Coverage Results" MODIFIED="1572715171313" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
