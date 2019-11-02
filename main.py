@@ -1,16 +1,16 @@
 from sklearn.metrics import accuracy_score
-from sklearn.metrics import recall_score
-from sklearn.metrics import roc_auc_score
 from sklearn.metrics import precision_score
 from sklearn.metrics import f1_score
 from sklearn.model_selection import  StratifiedKFold
-from sklearn.neighbors import KNeighborsClassifier
 import pandas as pd
 
 from Knn import Knn
 from distances.EuclideanDistance import *
 from distances.ManhattanDistance import *
 from distances.CosineDistance import *
+from distances.EuclideanCosineHybridDistance import EuclideanCosineHybridDistance
+from distances.EuclideanManhattanHybridDistance import EuclideanManhattanHybridDistance
+from distances.CosineManhattanHybridDistance import CosineManhattanHybridDistance
 from utils.preprocessor import prepare_dataset
 from utils.dataset_splitter import split_dataset
 
@@ -37,7 +37,7 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
     k_fold_cross_validator = StratifiedKFold(n_splits=n_folds)
     epoch = 0
 
-    for k in range(1, 15):
+    for k in range(1, 10):
 
         accuracy_sum = 0
         precision_sum = 0
@@ -87,10 +87,11 @@ def main():
     ## Computation parameters
 
     tuning = True
-    n_folds = 10
+    n_folds = 3
 
     dataset_name = 'orthopedic_multi'
-    distance_metric = EuclideanDistance()
+    distance_metric = CosineManhattanHybridDistance()
+    distance_metric.set_cosine_weight(0.7)
 
     ## Main
 

@@ -11,7 +11,7 @@ def reduce_dimensionality(original_feature_set):
     """
 
     original_feature_set = StandardScaler(copy = True, with_mean = True, with_std = True).fit_transform(original_feature_set)
-    pca = PCA(n_components=0.9, svd_solver='full')
+    pca = PCA(n_components=0.95, svd_solver='full')
     principal_components = pca.fit_transform(original_feature_set)
     x = pd.DataFrame(data=principal_components)
     return x.values
