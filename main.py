@@ -16,7 +16,6 @@ from utils.preprocessor import prepare_dataset
 from utils.dataset_splitter import split_dataset
 
 experiment_dict = {
-    'iris': {'name': 'Iris.csv', 'to_drop' : [], 'target': 'Species', 'sep' : ','},
     'diabetes': {'name': 'diabetes.csv', 'to_drop' : [], 'target': 'class', 'sep' : ','},
     'heart': {'name': 'heart.csv', 'to_drop' : [], 'target': 'target', 'sep' : ','},
     'prostate': {'name': 'prostate_cancer.csv', 'to_drop' : [], 'target': 'diagnosis_result', 'sep': ','},
@@ -39,7 +38,7 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
     k_fold_cross_validator = StratifiedKFold(n_splits=n_folds)
     epoch = 0
 
-    for k in range(1, 10):
+    for k in range(1, 35):
 
         accuracy_sum = 0
         precision_sum = 0
@@ -85,7 +84,7 @@ def final_evaluation_on_test(k, X_train, X_test, y_train, y_test, knn, dataset_n
 
     ##Save final results on CSV file
     df = pd.DataFrame({'K': k, 'Accuracy': accuracy_metric, 'Precision': precision_metric, 'Recall': recall_metric, 'F1 score': f1_score_metric}, index = [1])
-    df.to_csv("tuning/test_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv", index = False)
+    df.to_csv("test/test_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv", index = False)
 
 
 def main():
@@ -93,10 +92,10 @@ def main():
     ## Computation parameters
 
     tuning = False
-    n_folds = 3
+    n_folds = 7
 
-    dataset_name = 'orthopedic_multi'
-    distance_metric = EuclideanDistance()
+    dataset_name = 'breast'
+    distance_metric = ManhattanDistance()
     #distance_metric.set_cosine_weight(0.7)
 
     ## Main
