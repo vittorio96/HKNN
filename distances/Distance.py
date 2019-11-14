@@ -7,7 +7,7 @@ from abc import ABC, abstractmethod
 class Distance(ABC):
 
     @abstractmethod
-    def compute_distance(self, point1, point2):
+    def compute_distances_from_points(self, point1, points_list):
         pass
 
     @abstractmethod

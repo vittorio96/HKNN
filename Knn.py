@@ -32,11 +32,7 @@ class Knn:
         ## Iterate through each value in test data
         for val in x_val:
 
-            distances = []
-
-            ## Finding eucledian distance for all points in training data
-            for point in x_train:
-                distances.append(self.distance_metric.compute_distance(val, point))
+            distances = self.distance_metric.compute_distances_from_points(val, x_train)
 
             ## A temporary target array is created and both similarities and targets are sorted in a rank with bubble-sort
             temp_target = y_train

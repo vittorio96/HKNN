@@ -11,5 +11,13 @@ class ManhattanDistance(Distance):
         """
         return minkowski_distance(point1, point2, p = 1) ##A Manhattan distance is a Minkowski distance with p = 1
 
+    def compute_distances_from_points(self, point1, points_list):
+
+        distances = []
+        ## Finding eucledian distance for all points in training data
+        for point in points_list:
+            distances.append(self.compute_distance(point1, point))
+        return distances
+
     def get_distance_name(self):
         return "Manhattan"

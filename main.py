@@ -85,6 +85,7 @@ def final_evaluation_on_test(k, X_train, X_test, y_train, y_test, knn, dataset_n
     ##Save final results on CSV file
     df = pd.DataFrame({'K': k, 'Accuracy': accuracy_metric, 'Precision': precision_metric, 'Recall': recall_metric, 'F1 score': f1_score_metric}, index = [1])
     df.to_csv("test/test_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv", index = False)
+    #print(df)
 
 
 def main():
@@ -94,8 +95,8 @@ def main():
     tuning = False
     n_folds = 7
 
-    dataset_name = 'breast'
-    distance_metric = ManhattanDistance()
+    dataset_name = 'orthopedic_multi'
+    distance_metric = CosineDistance()
     #distance_metric.set_cosine_weight(0.7)
 
     ## Main
@@ -107,10 +108,8 @@ def main():
     if tuning:
         k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds)
     else:
-        final_evaluation_on_test(9, X_train, X_test, y_train, y_test, knn, dataset_name)
+        final_evaluation_on_test(15, X_train, X_test, y_train, y_test, knn, dataset_name)
 
 
 if __name__ == "__main__":
     main()
-
-

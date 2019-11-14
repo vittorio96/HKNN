@@ -1,6 +1,7 @@
 from distances.Distance import Distance
 from distances.EuclideanDistance import EuclideanDistance
 from distances.CosineDistance import CosineDistance
+from sklearn.preprocessing import scale
 
 
 class EuclideanCosineHybridDistance(Distance):
@@ -8,16 +9,19 @@ class EuclideanCosineHybridDistance(Distance):
     def set_euclidean_weight(self, alpha):
         self.alpha = alpha
 
-    ## Ovverride
-    def compute_distance(self, point1, point2):
-        """
-            :type point1: numpy.ndarray, point2: numpy.ndarray
-            :rtype: cumulative_distance: float, -1 if arrays are not matching
-        """
-        euclidean = EuclideanDistance()
-        cosine = CosineDistance()
+    def compute_distances_from_points(self, point1, points_list):
 
-        return (self.alpha * euclidean.compute_distance(point1, point2) + (1-self.alpha) * cosine.compute_distance(point1, point2))
+        euclidean_distances,cosine_distances = [], []
+        euclidean, cosine = EuclideanDistance(), CosineDistance()
+
+        ## Finding eucledian distance for all points in training data
+        for point in points_list:
+            euclidean_distances.append(euclidean.compute_distance(point1, point))
+            cosine_distances.append(cosine.compute_distance(point1, point))
+
+        ## Normalize the distances and create the weighted sum
+        return (self.alpha * scale(euclidean_distances) + scale(cosine_distances))
+
 
     def get_distance_name(self):
         return "EuclideanCosineHybrid"
