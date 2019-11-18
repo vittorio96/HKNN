@@ -6,7 +6,7 @@ from sklearn.preprocessing import scale
 
 class EuclideanCosineHybridDistance(Distance):
 
-    def set_euclidean_weight(self, alpha):
+    def set_hybrid_weight(self, alpha):
         self.alpha = alpha
 
     def compute_distances_from_points(self, point1, points_list):
@@ -20,7 +20,7 @@ class EuclideanCosineHybridDistance(Distance):
             cosine_distances.append(cosine.compute_distance(point1, point))
 
         ## Normalize the distances and create the weighted sum
-        return (self.alpha * scale(euclidean_distances) + scale(cosine_distances))
+        return (self.alpha * scale(euclidean_distances) + (1-self.alpha)*scale(cosine_distances))
 
 
     def get_distance_name(self):

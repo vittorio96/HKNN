@@ -3,14 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="95961313-8228-47bc-97e4-959885a776a3" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Knn.py" beforeDir="false" afterPath="$PROJECT_DIR$/Knn.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distances/CosineDistance.py" beforeDir="false" afterPath="$PROJECT_DIR$/distances/CosineDistance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distances/CosineManhattanHybridDistance.py" beforeDir="false" afterPath="$PROJECT_DIR$/distances/CosineManhattanHybridDistance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distances/Distance.py" beforeDir="false" afterPath="$PROJECT_DIR$/distances/Distance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distances/EuclideanCosineHybridDistance.py" beforeDir="false" afterPath="$PROJECT_DIR$/distances/EuclideanCosineHybridDistance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distances/EuclideanDistance.py" beforeDir="false" afterPath="$PROJECT_DIR$/distances/EuclideanDistance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/distances/EuclideanManhattanHybridDistance.py" beforeDir="false" afterPath="$PROJECT_DIR$/distances/EuclideanManhattanHybridDistance.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/distances/ManhattanDistance.py" beforeDir="false" afterPath="$PROJECT_DIR$/distances/ManhattanDistance.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -130,6 +125,10 @@
       <workItem from="1573575538527" duration="7464000" />
       <workItem from="1573638965860" duration="2025000" />
       <workItem from="1573736982722" duration="3062000" />
+      <workItem from="1573767126991" duration="1373000" />
+      <workItem from="1573802377390" duration="4738000" />
+      <workItem from="1573916144254" duration="3285000" />
+      <workItem from="1573996281180" duration="3769000" />
     </task>
     <servers />
   </component>
@@ -150,6 +149,6 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HKNN$main.coverage" NAME="main Coverage Results" MODIFIED="1573740447571" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/HKNN$main.coverage" NAME="main Coverage Results" MODIFIED="1574006085807" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

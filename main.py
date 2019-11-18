@@ -30,6 +30,7 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
     ## K-fold cross validation
 
     k_list = []
+    alpha_list = []
     accuracy_list = []
     precision_list = []
     recall_list = []
@@ -38,37 +39,41 @@ def k_fold_cross_validation(X_train, y_train, knn, dataset_name, n_folds):
     k_fold_cross_validator = StratifiedKFold(n_splits=n_folds)
     epoch = 0
 
-    for k in range(1, 35):
+    for k in range(1, 30):
 
-        accuracy_sum = 0
-        precision_sum = 0
-        f1_score_sum = 0
-        recall_sum = 0
+        for alpha in [0.2, 0.4, 0.5, 0.6, 0.8]:
+            accuracy_sum = 0
+            precision_sum = 0
+            f1_score_sum = 0
+            recall_sum = 0
 
-        for train_index, val_index in k_fold_cross_validator.split(X_train, y_train):
-            x_train_fold, x_val_fold = X_train[train_index], X_train[val_index]
-            y_train_fold, y_val_fold = y_train[train_index], y_train[val_index]
-            prediction = knn.fit_knn_model(k, x_train_fold, x_val_fold, y_train_fold)  # y_train is used to know the class to vote
+            knn.distance_metric.set_hybrid_weight(alpha)
 
-            ## Compute metrics
-            accuracy_sum += accuracy_score(y_val_fold, prediction)
-            precision_sum += precision_score(y_val_fold, prediction, average='macro')
-            recall_sum += recall_score(y_val_fold, prediction, average = 'macro')
-            f1_score_sum += f1_score(y_val_fold, prediction, average='macro')
+            for train_index, val_index in k_fold_cross_validator.split(X_train, y_train):
+                x_train_fold, x_val_fold = X_train[train_index], X_train[val_index]
+                y_train_fold, y_val_fold = y_train[train_index], y_train[val_index]
+                prediction = knn.fit_knn_model(k, x_train_fold, x_val_fold, y_train_fold)  # y_train is used to know the class to vote
 
-        ## Epoch completed, hyperparameters evaluated, compute average values over the folds
-        k_list.append(k)
-        accuracy_list.append(round(accuracy_sum / n_folds, 5))
-        precision_list.append(round(precision_sum / n_folds, 5))
-        recall_list.append(round((recall_sum / n_folds), 5))
-        f1_score_list.append(round(f1_score_sum / n_folds, 5))
+                ## Compute metrics
+                accuracy_sum += accuracy_score(y_val_fold, prediction)
+                precision_sum += precision_score(y_val_fold, prediction, average='macro')
+                recall_sum += recall_score(y_val_fold, prediction, average = 'macro')
+                f1_score_sum += f1_score(y_val_fold, prediction, average='macro')
+
+            ## Epoch completed, hyperparameters evaluated, compute average values over the folds
+            k_list.append(k)
+            alpha_list.append(alpha)
+            accuracy_list.append(round(accuracy_sum / n_folds, 5))
+            precision_list.append(round(precision_sum / n_folds, 5))
+            recall_list.append(round((recall_sum / n_folds), 5))
+            f1_score_list.append(round(f1_score_sum / n_folds, 5))
 
         print("Epoch " + str(epoch) + " finished")
         epoch += 1
 
     ##Save final results on CSV file
 
-    df = pd.DataFrame({'K': k_list, 'Accuracy': accuracy_list, 'Precision': precision_list, 'Recall': recall_list,'F1 score': f1_score_list})
+    df = pd.DataFrame({'K': k_list, 'Alpha': alpha_list, 'Accuracy': accuracy_list, 'Precision': precision_list, 'Recall': recall_list,'F1 score': f1_score_list})
     df.to_csv("tuning/tuning_" + dataset_name + "_" + knn.distance_metric.get_distance_name() + ".csv", index=False, float_format = '%.5f')
 
 
@@ -92,11 +97,11 @@ def main():
 
     ## Computation parameters
 
-    tuning = False
-    n_folds = 7
+    tuning = True
+    n_folds = 4
 
     dataset_name = 'orthopedic_multi'
-    distance_metric = CosineDistance()
+    distance_metric = CosineManhattanHybridDistance()
     #distance_metric.set_cosine_weight(0.7)
 
     ## Main
